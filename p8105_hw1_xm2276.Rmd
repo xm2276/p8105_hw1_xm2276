@@ -1,0 +1,80 @@
+---
+title: "p8105_hw1_xm2276"
+author: "XIAO MA"
+date: "9/29/2021"
+output: github_document
+---
+
+---
+title: "p8105_hw1_xm2276"
+author: "XIAO MA"
+date: "9/27/2021"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Problem 1
+```{r}
+##Create a data frame
+library(tidyverse)
+example_df = tibble(
+  vec_numeric = rnorm(10),
+  vec_logical = vec_numeric > 0,
+  vec_char = c("StudentA","StudentB","StudentC","StudentD","StudentE","StudentF","StudentG","StudentH","StudentI","StudentJ"),
+  vec_factor = factor(c("Good","Good","Fair","Poor","Fair","Fair","Poor","Good","Poor","Fair"))
+)
+
+example_df
+mean_examp_nu = mean(pull(example_df, vec_numeric))
+mean_examp_nu
+mean_examp_lo = mean(pull(example_df, vec_logical))
+mean_examp_lo
+
+```
+
+
+##use the as.numeric function
+```{r,eval=FALSE}
+as.numeric(pull(example_df, vec_logical))
+mean(as.numeric(pull(example_df, vec_logical)))
+as.numeric(pull(example_df, vec_char))
+mean(as.numeric(pull(example_df, vec_char)))
+as.numeric(pull(example_df, vec_factor))
+mean(as.numeric(pull(example_df, vec_factor)))
+
+#After using `as.numeric`to logical, character, and factor variables, it helps us to find the mean on factor vectors. 
+#The mean of logical variable changed from 0.6 to 1.9 since after using as.numeric the logical variable become only 1 or 0 (binary) hence the it is the mean of the binary result. 
+#For character variable, it still cannot get the mean and the `as numeric` function does not work on charter variable. 
+#For factor vectors, since it has three levels, by `as numeric` function it becomes to 1,2,3, and then mean is actually group of 1,2,3.
+```
+
+
+
+##problem2
+
+```{r}
+data("penguins", package = "palmerpenguins")
+penguins
+```
+
+The**penguins** data set contains the following variable`r ls(penguins)`.
+The number of rows of Penguin is `r nrow(penguins)`.
+The number of columns of Penguin is `r ncol(penguins)`.
+Flipper Length (mm) is a `r class(pull(penguins, flipper_length_mm))` variable. 
+The mean of flipper length in mm is `r mean(pull(penguins, flipper_length_mm), na.rm=TRUE)`.
+
+
+
+##Problem 2 scatterplot
+```{r}
+
+library(ggplot2)
+ggplot(penguins) + geom_point(aes(bill_length_mm,flipper_length_mm,color = species))
+ggsave("scatterplot_penguins.pdf")
+```
+
+
+
